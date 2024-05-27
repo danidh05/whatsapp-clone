@@ -1,7 +1,7 @@
 import { ListFilter, LogOut, MessageSquareDiff, Search, User } from "lucide-react"; // Importing icons from the 'lucide-react' library
 import { Input } from "../ui/input"; // Importing Input component
 import ThemeSwitch from "./theme-switch"; // Importing ThemeSwitch component
-import { conversations } from "@/src/dummy-data/db";
+import { conversations } from "@/dummy-data/db";
 import Conversation from "./conversation";
 
 const LeftPanel = () => {

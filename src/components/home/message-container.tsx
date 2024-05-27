@@ -1,4 +1,4 @@
-import { messages } from "@/src/dummy-data/db";
+import { messages } from "@/dummy-data/db";
 import ChatBubble from "./chat-bubble";
 const MessageContainer = () => {
     return (

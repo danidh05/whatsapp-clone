@@ -1,6 +1,6 @@
-import { formatDate } from "@/src/lib/utils"; // Importing formatDate function from utils
+import { formatDate } from "@/lib/utils"; // Importing formatDate function from utils
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"; // Importing avatar components
-import { MessageSeenSvg } from "@/src/lib/svgs"; // Importing MessageSeenSvg component
+import { MessageSeenSvg } from "@/lib/svgs"; // Importing MessageSeenSvg component
 import { ImageIcon, Users, VideoIcon } from "lucide-react"; // Importing icons from lucide-react library
 
 // Conversation Component Definition
