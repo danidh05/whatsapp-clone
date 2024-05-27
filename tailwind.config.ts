@@ -19,6 +19,8 @@ const config = {
     },
     extend: {
       colors: {
+      //  "green-primary": "hsl(var(--green-primary))",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -52,26 +54,27 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },  
-        backgroundColor: {
-          container: "hsl(var(--container))",
-          "gray-primary": "hsl(var(--gray-primary))",
-          "gray-secondary": "hsl(var(--gray-secondary))",
-          "gray-tertiary": "hsl(var(--gray-tertiary))",
-          "left-panel": "hsl(var(--left-panel))",
-          "chat-hover": "hsl(var(--chat-hover))",
-          "green-primary": "hsl(var(--green-primary))",
-          "green-secondary": "hsl(var(--green-secondary))",
-          "green-chat": "hsl(var(--green-chat))",
-        },
-        backgroundImage: {
-          "chat-tile-light": "url('/bg-light.png')",
-          "chat-tile-dark": "url('/bg-dark.png')",
-        },
+      
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },  
+      backgroundColor: {
+        container: "hsl(var(--container))",
+        "gray-primary": "hsl(var(--gray-primary))",
+        "gray-secondary": "hsl(var(--gray-secondary))",
+        "gray-tertiary": "hsl(var(--gray-tertiary))",
+        "left-panel": "hsl(var(--left-panel))",
+        "chat-hover": "hsl(var(--chat-hover))",
+        "green-primary": "hsl(var(--green-primary))",
+        "green-secondary": "hsl(var(--green-secondary))",
+        "green-chat": "hsl(var(--green-chat))",
+      },
+      backgroundImage: {
+        "chat-tile-light": "url('/bg-light.png')",
+        "chat-tile-dark": "url('/bg-dark.png')",
       },
       keyframes: {
         "accordion-down": {

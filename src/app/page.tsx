@@ -5,8 +5,10 @@ import RightPanel from "@/components/home/right-panel";
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const { setTheme } = useTheme()
   const { isLoaded, userId } = useAuth();
   const router = useRouter();
 
