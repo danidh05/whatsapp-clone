@@ -1,13 +1,15 @@
-import { ListFilter, LogOut, MessageSquareDiff, Search, User } from "lucide-react"; // Importing icons from the 'lucide-react' library
+import { ListFilter, LogOut, Search } from "lucide-react"; // Importing icons from the 'lucide-react' library
 import { Input } from "../ui/input"; // Importing Input component
 import ThemeSwitch from "./theme-switch"; // Importing ThemeSwitch component
 import { conversations } from "@/dummy-data/db";
 import Conversation from "./conversation";
-import { SignInButton, SignOutButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
+import UserListDialog from "./user-list-dialog";
+import { useConvexAuth } from "convex/react";
 
 const LeftPanel = () => {
     //  const conversations = []; // Placeholder for conversations data
-
+    const { isAuthenticated } = useConvexAuth();
     return (
         // Main container for the left panel, with 1/4 width and right border
         <div className='w-1/4 border-gray-600 border-r'>
@@ -18,7 +20,7 @@ const LeftPanel = () => {
                     <UserButton />
 
                     <div className='flex items-center gap-3'>
-                        <MessageSquareDiff size={20} /> {/* Placeholder for future UserListDialog component */}
+                        {isAuthenticated && <UserListDialog />}
                         <ThemeSwitch /> {/* Theme switch component */}
                         <LogOut size={20} className='cursor-pointer' /> {/* Logout icon */}
                     </div>

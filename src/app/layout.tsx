@@ -1,5 +1,5 @@
 "use client";
-
+import { Metadata } from 'next';
 import {
   ClerkProvider,
   SignInButton,
@@ -13,6 +13,7 @@ import { ThemeProvider } from '../providers/theme-provider';
 import ConvexClientProvider from "../providers/convex-client-provider";
 import './globals.css';
 import { usePathname } from 'next/navigation';
+import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -24,8 +25,9 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
-  const pathname = usePathname();
+})//this means that the fct accepts an object as arg,this object contains a children property .Then we have ts type annotation , React.ReactNode means anything that can be rendered in react like jsx basic variable types,fragments(<><>)...
+{
+  const pathname = usePathname();//allows you to access the current URL pathname within your components
 
   return (
     <ClerkProvider>
@@ -42,6 +44,7 @@ export default function RootLayout({
                 <UserButton />
               </SignedIn>
               {children}
+              <Toaster />
             </ConvexClientProvider>
           </ThemeProvider>
         </body>
