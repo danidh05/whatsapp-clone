@@ -35,11 +35,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
             <ConvexClientProvider>
-              {pathname !== "/sign-in" && (
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-              )}
+
               <SignedIn>
                 <UserButton />
               </SignedIn>

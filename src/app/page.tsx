@@ -14,14 +14,21 @@ export default function Home() {
 
   useEffect(() => {
     if (isLoaded && !userId) {
-      router.push('/sign-in');
+      router.push('https://keen-sturgeon-76.accounts.dev/sign-in');
     }
   }, [isLoaded, userId, router]);
 
   if (!isLoaded || !userId) {
-    // Optionally render a loading state or null while the authentication status is loading
-    return <div>Loading...</div>;
+    // Optionally render a loading spinner or animation while the authentication status is loading
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#333' }}>
+          Loading...
+        </div>
+      </div>
+    );
   }
+
 
   return (
     <main className='m-5'>
