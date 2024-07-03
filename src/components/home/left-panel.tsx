@@ -5,11 +5,15 @@ import { conversations } from "@/dummy-data/db";
 import Conversation from "./conversation";
 import { UserButton } from "@clerk/nextjs";
 import UserListDialog from "./user-list-dialog";
-import { useConvexAuth } from "convex/react";
+import { useConvexAuth, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 const LeftPanel = () => {
     //  const conversations = []; // Placeholder for conversations data
     const { isAuthenticated } = useConvexAuth();
+    const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip")
+    //the second arg to tell the conversations wait to make sure authentication is in place , skip is coming from convex .
+    //The second arg means that wait until authentication is checked and then pass the conversations
     return (
         // Main container for the left panel, with 1/4 width and right border
         <div className='w-1/4 border-gray-600 border-r'>
@@ -47,7 +51,7 @@ const LeftPanel = () => {
             {/* Container for the chat list, with scrolling enabled */}
             <div className='my-3 flex flex-col gap-0 max-h-[80%] overflow-auto'>
                 {/* Rendering conversation items */}
-                {conversations.map((conversation) => (
+                {conversations?.map((conversation) => (
                     <Conversation key={conversation._id} conversation={conversation} />
                 ))}
                 {/* Message shown when there are no conversations */}

@@ -1,5 +1,5 @@
 import { ConvexError, v } from "convex/values"
-import { mutation } from "./_generated/server"
+import { mutation,query } from "./_generated/server"
 
 
 export const createConversation=mutation({
@@ -45,6 +45,62 @@ export const createConversation=mutation({
     })//create new one if not available
     return conversationId;
 //This mutation check if theres already a prev convo with this person dont make a new convo
+    }
+});
+
+export const getMyConversations= query({
+//This query is used to see the last message with the chat ,and the user details such as the groups picture or the other user's profile picture
+    
+    args:{},//This specifies that the getMyConversations query does not take any arguments.
+    handler:async(ctx,args)=>{// handles the query logic
+        const identity=await ctx.auth.getUserIdentity();//checks if the user is authenticated.
+        if(!identity) throw new ConvexError("Unauthorized");
+
+        const user=await ctx.db
+        .query("users")
+        .withIndex("by_tokenIdentifier",q=>q.eq("tokenIdentifier",identity.tokenIdentifier))
+        .unique();  
+        //This query looks for a user in the users collection whose tokenIdentifier matches the authenticated user's tokenIdentifier
+
+        if(!user) throw new ConvexError("User not found");
+        const conversations=await ctx.db.query("conversations").collect();//we took all convs from db
+
+        const myConversations=conversations.filter((conversation)=>{
+            return conversation.participants.includes(user._id);
+        });//we filter them and take only the user's ones
+      const conversationsWithDetails = await Promise.all(
+        myConversations.map(async(conversation)=>{
+
+            let userDetails={};
+            if(!conversation.isGroup){
+                const otherUserId= conversation.participants.find(id=>id!==user._id);
+                const userProfile = await ctx.db.query("users")
+                .filter(q=>q.eq(q.field("_id"),otherUserId))
+                .take(1);//Takes only the first result from the query
+
+                userDetails=userProfile[0];
+            }
+
+            const lastMessage=await ctx.db
+            .query("messages")
+            .filter((q)=>q.eq(q.field("conversation"),conversation._id))//This condition means "find documents where the conversation field equals conversation._id."
+
+            //q is a query builder object provided by Convex
+            //This part specifies the field in the documents to be filtered on. 
+            //Here, q.field("conversation") indicates that the filtering should be done on the conversation field of the documents.
+            
+            .order("desc")
+            .take(1)
+
+            return{
+                ...userDetails,
+                ...conversation,
+                lastMessage:lastMessage[0] || null,
+            }//return should be in this order otherwise _id field will be overwritten
+        })
+      )
+        return conversationsWithDetails;
+
     }
 })
 

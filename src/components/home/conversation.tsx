@@ -2,16 +2,16 @@ import { formatDate } from "@/lib/utils"; // Importing formatDate function from 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"; // Importing avatar components
 import { MessageSeenSvg } from "@/lib/svgs"; // Importing MessageSeenSvg component
 import { ImageIcon, Users, VideoIcon } from "lucide-react"; // Importing icons from lucide-react library
-
+import { useQuery, } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 // Conversation Component Definition
 const Conversation = ({ conversation }: { conversation: any }) => {
     // Destructuring conversation data
-    const conversationImage = conversation.groupImage; // Extracting group image from conversation
-    const conversationName = conversation.groupName || "Private Chat"; // Extracting group name from conversation, defaulting to "Private Chat"
+    const conversationImage = conversation.groupImage || conversation.image; // Extracting group image from conversation
+    const conversationName = conversation.groupName || conversation.name; // Extracting group name from conversation, defaulting to "Private Chat"
     const lastMessage = conversation.lastMessage; // Extracting last message from conversation
     const lastMessageType = lastMessage?.messageType; // Extracting message type from last message
-    const authUser = { _id: "user1" }; // Hardcoded authenticated user ID
-
+    const me = useQuery(api.users.getMe);
     return (
         // Conversation JSX
         <>
@@ -33,7 +33,7 @@ const Conversation = ({ conversation }: { conversation: any }) => {
                         </span>
                     </div>
                     <p className='text-[12px] mt-1 text-gray-500 flex items-center gap-1 '>
-                        {lastMessage?.sender === authUser?._id ? <MessageSeenSvg /> : ""} {/* Message seen icon */}
+                        {lastMessage?.sender === me?._id ? <MessageSeenSvg /> : ""} {/* Message seen icon */}
                         {conversation.isGroup && <Users size={16} />} {/* Group icon if it's a group chat */}
                         {!lastMessage && "Say Hi!"} {/* Placeholder for "Say Hi!" message */}
                         {lastMessageType === "text" ? ( // Conditional rendering based on message type

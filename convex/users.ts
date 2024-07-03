@@ -84,8 +84,8 @@ export const setUserOffline = internalMutation({
       }
 
       const users=await ctx.db.query("users").collect();
-       return users;
-       //retrieve and return all user records from users table
+       return users.filter(user=>user.tokenIdentifier!==identity.tokenIdentifier);
+       //retrieve and return all user records from users table except the user himself
     }
   })
 
