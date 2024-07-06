@@ -106,7 +106,7 @@ export const getMe=query({
     }
     return user;
   }
-})
+})//This get sthe currently authenticated user from the database
 //TODO add getGroupUsers query
   export const getGroupMembers=query({
     args:{conversationId:v.id("conversations")},

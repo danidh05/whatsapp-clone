@@ -25,9 +25,7 @@ const ChatBubbleAvatar = ({ isGroup, isMember, message }: ChatBubbleAvatar) => {
         </Avatar>
     )
 
-    return (
-        <div>ChatBubbleAvatar</div>
-    );
+
 }
 
 export default ChatBubbleAvatar;

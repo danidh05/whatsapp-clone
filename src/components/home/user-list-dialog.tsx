@@ -20,6 +20,7 @@ import { api } from "../../../convex/_generated/api";
 import { useQuery } from "convex/react";
 import { DialogClose } from "@radix-ui/react-dialog";
 import toast from "react-hot-toast";
+import { useConversationStore } from "@/store/chat-store";
 
 const UserListDialog = () => {
     const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
@@ -35,7 +36,10 @@ const UserListDialog = () => {
     const generateUploadUrl = useMutation(api.conversations.generateUploadUrl)
 
     const me = useQuery(api.users.getMe);
-    const users = useQuery(api.users.getUsers)
+    const users = useQuery(api.users.getUsers);
+
+    const { setSelectedConversation } = useConversationStore();
+
     const handleCreateConversation = async () => {
         if (selectedUsers.length === 0) return;
         setIsLoading(true);
@@ -46,7 +50,7 @@ const UserListDialog = () => {
                 conversationId = await createConversation({
                     participants: [...selectedUsers, me?._id!],
                     isGroup: false
-                })
+                });
 
             } else {//For group chats
                 const postUrl = await generateUploadUrl();//we gen a url ,where the img will be stored(in server)
@@ -58,7 +62,7 @@ const UserListDialog = () => {
                 })
 
                 const { storageId } = await result.json();
-                await createConversation({
+                conversationId = await createConversation({
                     participants: [...selectedUsers, me?._id!],
                     isGroup: true,
                     admin: me?._id!,
@@ -74,6 +78,16 @@ const UserListDialog = () => {
             setSelectedImage(null);
 
             //TODO=>UPDATE a global state called "selectedConversation"
+            const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;//esm l grp aw l contact
+
+            setSelectedConversation({
+                _id: conversationId,
+                participants: selectedUsers,
+                isGroup,
+                image: isGroup ? renderedImage : users?.find((user) => user._id === selectedUsers[0])?.image, //Pic eza grp 7ott profile l group else 7ott profile l sha5es
+                name: conversationName,
+                admin: me?._id!
+            })
         } catch (err) {
             toast.error("Faied to create conversation")
             console.error(err)
