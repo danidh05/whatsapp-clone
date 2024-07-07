@@ -7,13 +7,26 @@ import { UserButton } from "@clerk/nextjs";
 import UserListDialog from "./user-list-dialog";
 import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { useEffect } from "react";
+import { useConversationStore } from "@/store/chat-store";
 
 const LeftPanel = () => {
     //  const conversations = []; // Placeholder for conversations data
-    const { isAuthenticated } = useConvexAuth();
+    const { isAuthenticated, isLoading } = useConvexAuth();
     const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip")
     //the second arg to tell the conversations wait to make sure authentication is in place , skip is coming from convex .
     //The second arg means that wait until authentication is checked and then pass the conversations
+
+    const { selectedConversation, setSelectedConversation } = useConversationStore()
+    useEffect(() => {
+        const conversationIds = conversations?.map((conversation) => conversation._id);
+        if (selectedConversation && conversationIds && !conversationIds.includes(selectedConversation._id)) {
+            setSelectedConversation(null)
+        }
+    }, [conversations, selectedConversation, setSelectedConversation]);//This useEffect is used to remove the group chat from the kicked user from both the openned chat and the left pannel
+    //So this useEffect is called when a user is kicked out
+    if (isLoading) return null;
+
     return (
         // Main container for the left panel, with 1/4 width and right border
         <div className='w-1/4 border-gray-600 border-r'>

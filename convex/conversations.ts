@@ -104,6 +104,33 @@ export const getMyConversations= query({
     }
 })
 
+export const kickUser=mutation({
+args:{conversationId:v.id("conversations"),
+      userId:v.id("users")
+},
+handler:async(ctx,args)=>{
+    const identity=await ctx.auth.getUserIdentity();
+    if(!identity){
+        throw new ConvexError("Unauthorized");    
+    }
+
+    const conversation=await ctx.db
+    .query("conversations")
+    .filter((q)=>q.eq(q.field("_id"),args.conversationId))
+    .unique();
+
+    if(!conversation) throw new ConvexError("conversation not found");
+
+    if (!conversation.participants || !Array.isArray(conversation.participants)) {
+        throw new ConvexError("Participants not found in conversation");
+      }
+
+    await ctx.db.patch(args.conversationId,{
+        participants:conversation.participants.filter((id)=>id!==args.userId)
+    })//meaningg this function will remove the user with the id provided as an arg from the group(user kicked)
+}
+});
+
 export const generateUploadUrl =mutation(async (ctx)=>{
     return await ctx.storage.generateUploadUrl(); 
 });
