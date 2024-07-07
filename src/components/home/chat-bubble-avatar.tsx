@@ -5,15 +5,16 @@ type ChatBubbleAvatar = {
     message: IMessage;
     isMember: boolean;
     isGroup: boolean | undefined;
+    fromAI: boolean
 }
 
-const ChatBubbleAvatar = ({ isGroup, isMember, message }: ChatBubbleAvatar) => {
-    if (!isGroup) {
+const ChatBubbleAvatar = ({ isGroup, isMember, message, fromAI }: ChatBubbleAvatar) => {
+    if (!isGroup && !fromAI) {
         return null;
     }
     return (
         <Avatar className="overflow-visible relative">{/*To show if this member is online or not */}
-            {message.sender.isOnline && (
+            {message.sender.isOnline && isMember && (
                 <div className="absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full border-2 border-foreground" />
             )}
             <AvatarImage src={message.sender?.image} className="rounded-full object-cover w-8 h-8" />
