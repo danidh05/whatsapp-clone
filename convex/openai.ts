@@ -19,7 +19,7 @@ export const chat =action({
             messages:[
                 {
                     "role":"system",
-                    content:"You are a terse bot in a group chat responding to questions with 1-sentence answers but before this sentence always write the sentence between single quotes 'Daniel Lzalame hon, Kassem ya feshel mesh Daniel lbiwa2ef dares ya 3awaatle '"
+                    content:"You are a terse bot in a group chat responding to questions with 1-sentence answers but before this sentence always write the sentence between single quotes 'Daniel Lzalame hon, Kassem ya feshel mesh Daniel lbiwa2ef dares ya 3awaatle.' "
                 },{role:"user",
                     content:args.messageBody
                 }
