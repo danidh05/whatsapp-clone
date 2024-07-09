@@ -1,24 +1,25 @@
 "use client";
-
 import LeftPanel from "@/components/home/left-panel";
 import RightPanel from "@/components/home/right-panel";
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
-import { useTheme } from "next-themes";
 
 export default function Home() {
-  const { setTheme } = useTheme()
   const { isLoaded, userId } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoaded && !userId) {
-      router.push('https://keen-sturgeon-76.accounts.dev/sign-in');
+    if (isLoaded) {
+      if (!userId) {
+        router.push('https://keen-sturgeon-76.accounts.dev/sign-in');
+      } else {
+        router.push('https://whatsappclone-silk.vercel.app/');
+      }
     }
   }, [isLoaded, userId, router]);
 
-  if (!isLoaded || !userId) {
+  if (!isLoaded) {
     // Optionally render a loading spinner or animation while the authentication status is loading
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -29,7 +30,7 @@ export default function Home() {
     );
   }
 
-
+  // Render main content once authentication is loaded
   return (
     <main className='m-5'>
       <div className='flex overflow-y-hidden h-[calc(100vh-50px)] max-w-[1700px] mx-auto bg-left-panel'>

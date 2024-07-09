@@ -34,6 +34,11 @@ export const sendTextMessage = mutation({
         if(!conversation.participants.includes(user._id)){
             throw new ConvexError("You are not part of this conversation")
         }
+           // Check if message content is empty
+           if (args.content.trim() === "") {
+            throw new ConvexError("Message content cannot be empty");
+        }
+
         //find if user is part of the convo
         await ctx.db.insert("messages",{
             sender:args.sender,
