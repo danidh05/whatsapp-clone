@@ -36,7 +36,7 @@ export const sendTextMessage = mutation({
         }
            // Check if message content is empty
            if (args.content.trim() === "") {
-            throw new ConvexError("Message content cannot be empty");
+            throw new ConvexError("Ma tkun 8abe 3mteb3at message faadye ya 7mar?");
         }
 
         //find if user is part of the convo
@@ -49,7 +49,7 @@ export const sendTextMessage = mutation({
 
 
         //TODO => add gpt support later
-        if(args.content.startsWith("@KassemFeshel")){
+        if(args.content.startsWith("@ChatGPT")){
             //Schedule the chat action to run immediately
            await ctx.scheduler.runAfter(0,api.openai.chat,{
             messageBody:args.content,
