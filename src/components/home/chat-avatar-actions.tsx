@@ -1,11 +1,10 @@
 import { IMessage, useConversationStore } from "@/store/chat-store"
 import { api } from "../../../convex/_generated/api";
-import { kickUser } from "convex/conversations";
+
 import { useMutation } from "convex/react";
 import { Ban, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
-import { create } from "domain";
-import { from } from "svix/dist/openapi/rxjsStub";
+import React from "react";
 
 type ChatAvatarActionProps = {
     message: IMessage;
@@ -69,7 +68,7 @@ const ChatAvatarActions = ({ me, message }: ChatAvatarActionProps) => {
             {isGroup && message.sender.name}
 
             {!isMember && !fromAI && isGroup && <Ban size={16} className="text-red-500" />}
-            {isGroup && isMember && selectedConversation?.admin === me._id && (
+            {isGroup && isMember && selectedConversation?.admin! === me._id && (
                 <LogOut size={16} className="text-red-500 opacity-0 group-hover:opacity-100"
                     onClick={handleKickUser} />
             )}
