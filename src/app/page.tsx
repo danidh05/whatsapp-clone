@@ -14,7 +14,7 @@ export default function Home() {
       if (!userId) {
         router.push('https://keen-sturgeon-76.accounts.dev/sign-in');
       } else {
-        router.push('https://maryamsaleh.vercel.app/');
+        router.push('https://whatsappclone-silk.vercel.app/');
       }
     }
   }, [isLoaded, userId, router]);
